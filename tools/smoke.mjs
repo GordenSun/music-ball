@@ -24,7 +24,7 @@ for (const [name, vp] of [['desktop', { width: 1280, height: 800 }], ['mobile', 
   page.on('console', m => { if (m.type() === 'error') { errors++; console.log(`[${name}]`, m.text(), m.location().url); } });
   page.on('pageerror', e => { errors++; console.log(`[${name}] pageerror`, e.message); });
   await page.goto(base);
-  await page.waitForSelector('#go');
+  await page.waitForSelector('#go:not([disabled])');
   await page.waitForTimeout(800);
   await page.screenshot({ path: `${out}-${name}-0.png` });
   await page.click('#go');

@@ -10,7 +10,13 @@ const canvas = $('stage');
 let seed = +params.get('seed') || DEFAULT_SEED;
 let level = buildLevel(seed);
 
-if (params.has('render')) capture(); else app();
+if (params.has('render')) capture();
+else {
+  try { app(); } catch (err) {
+    console.error(err);
+    $('go').textContent = '加载失败，请换个浏览器试试';
+  }
+}
 
 // Headless frame-by-frame capture mode, driven by tools/render.mjs.
 function capture() {
@@ -148,6 +154,8 @@ function app() {
     $('start').classList.add('gone');
     setPlaying(true);
   };
+  $('go').textContent = '开始播放';
+  $('go').disabled = false;
   $('play').onclick = () => setPlaying(!player.playing);
   $('prev').onclick = () => {
     const tau = player.now(), k = songAt(tau);
